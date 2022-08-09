@@ -1,0 +1,5 @@
+Package: multvar_jst  
+Type: Package
+Title: Multivariate statistics functions from Johnson and Wichern
+Version: 0.0.1.0
+RoxygenNote: 7.2.1
