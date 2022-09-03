@@ -16,29 +16,50 @@ X3 <- c(9.3, 8, 10.9, 12, 9.7,
 
 data <- data.frame(X1, X2, X3)
 
-# Hotelling hypothesis test
-# Need data matrix nxp and null mean matrix px1
-n <- dim(data)[1]
-p <- dim(data)[2]
-# null mean matrix
+# mean matrix under null hypothesis
 mu_null <- matrix(c(4, 50, 10), nrow = dim(data)[2])
-# function for Hotelling T2, the test statistic
-hotel_T2 <- function(data, mu_null){
+
+
+
+# function for Hotelling T2 test using specified data matrix and null mean matrix
+
+hotelling_T2_test <- function(data, mu_null, alpha = 0.05){
   n <- dim(data)[1]
   p <- dim(data)[2]
   S <- cov(data)
   xbar <- matrix(colMeans(data), 
                  nrow = p) #creates px1 matrix of observed means
   T2 <- n * t(xbar - mu_null) %*% solve(S) %*% (xbar - mu_null)
+  crit_val <- (n-1)*p/(n-p) * qf((1-alpha), p, n-p)
+  writeLines(c("This command runs the Hotelling T2 Hypothesis Test.",
+               "The command's arguments specify", 
+               "(1) the data,",
+               "(2) the value of the mean vector under the null hypothesis, and",
+               "(3) the level of significance for the test (i.e., alpha).",
+               "",
+               "Results of the test:",
+               "",
+               paste0("1. The Hotelling T2 statistic is: ", round(T2, 4)),
+               paste0("2. The critical value for the test is: ", round(crit_val, 4)),
+               paste0("3. The test was run at level of significance alpha = ", alpha)))
+  if(T2 > crit_val){
+    writeLines(c("4. The Hotelling T2 statistic exceeds the critical value, therefore",
+                 paste0("at level of significance alpha = ",alpha," there is enough evidence"),
+                 "to conclude that the true mean vector differs from the value specified",
+                 "in the null hypothesis."))
+  }
+  else{
+    writeLines(c("4. The Hotelling T2 statistic does not exceed the critical value, therefore",
+                 paste0("at level of significance alpha = ",alpha," there is NOT enough evidence"),
+                 "to conclude that the true mean vector differs from the value specified",
+                 "in the null hypothesis."))
+  }
 }
-# calculation of Hotelling T2
-T2 <- hotel_T2(data, mu_null)
-T2
 
-# calculation of critical value (F statistic)
-alph <- 0.1
-crit_val <- (n-1)*p/(n-p) * qf(.9, p, n-p)
-crit_val
+# Running the test
+
+hotelling_T2_test(data, mu_null, 0.1)
+hotelling_T2_test(data, mu_null)
 
 
 
