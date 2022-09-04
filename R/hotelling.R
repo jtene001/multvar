@@ -14,15 +14,22 @@ X3 <- c(9.3, 8, 10.9, 12, 9.7,
         12.7, 12.3, 9.8, 8.4, 10.1,
         7.1, 8.2, 10.9, 11.2, 9.4)
 
-data <- data.frame(X1, X2, X3)
+hotelling_test_data <- data.frame(X1, X2, X3)
 
 # mean matrix under null hypothesis
-mu_null <- matrix(c(4, 50, 10), nrow = dim(data)[2])
+mu_null <- matrix(c(4, 50, 10), nrow = dim(hotelling_test_data)[2])
 
 
 
-# function for Hotelling T2 test using specified data matrix and null mean matrix
-
+#' Function for Hotelling T2 test using specified data matrix and null mean matrix
+#' 
+#' @param data A dataframe (nxp) with n observations of p variables
+#' @param mu_null A px1 matrix for the mean vector under the null hypothesis
+#' @param alpha The level of significance for the test (default value is 0.05)
+#' @return The T2 statistic, the critical value and the result of the test.
+#' @examples 
+#' hotelling_T2_test(hotelling_test_data, mu_null, 0.1)
+#' hotelling_T2_test(hotelling_test_data, mu_null)
 hotelling_T2_test <- function(data, mu_null, alpha = 0.05){
   n <- dim(data)[1]
   p <- dim(data)[2]
@@ -58,8 +65,8 @@ hotelling_T2_test <- function(data, mu_null, alpha = 0.05){
 
 # Running the test
 
-hotelling_T2_test(data, mu_null, 0.1)
-hotelling_T2_test(data, mu_null)
+hotelling_T2_test(hotelling_test_data, mu_null, 0.1)
+hotelling_T2_test(hotelling_test_data, mu_null)
 
 
 
