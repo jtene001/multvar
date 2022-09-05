@@ -16,6 +16,28 @@ X3 <- c(9.3, 8, 10.9, 12, 9.7,
 
 hotelling_test_data <- data.frame(X1, X2, X3)
 
+
+data_moments <- function(data){
+  meanvec <- matrix(apply(data, 2, mean), ncol = 1)
+  covmat <- matrix(cov(data), ncol = dim(data)[2])
+  return(list(meanvec,covmat))
+  #should we use super-assignment instead of return?
+}
+
+
+xbar1 <- data_moments(hotelling_test_data)[1]
+covmat1 <- data_moments(hotelling_test_data)[2]
+xbar1 # returns a list, we need a px1 matrix
+covmat1 # returns a list, we need a pxp matrix
+class(xbar1)
+str(xbar1)
+class(covmat1)
+str(covmat1)
+
+
+
+
+
 # mean matrix under null hypothesis
 mu_null <- matrix(c(4, 50, 10), nrow = dim(hotelling_test_data)[2])
 
